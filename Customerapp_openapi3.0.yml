@@ -1,0 +1,165 @@
+swagger: '2.0'
+info:
+  title: Customer API
+  description: This is the customer API. It provides restful API for customer data
+  version: 1.0.0-oas3
+  contact:
+    name: Partha Prasad Roy Chowdhury
+    url: https://www.github.com
+    email: partha.roy-chowdhury@capgemini.com
+  license:
+    name: Apache '2.0'
+    url: https://www.apache.org/licenses/LICENSE-2.0
+paths:
+  /customer:
+    get:
+      summary: reads a customer data
+      operationId: getCustomer
+      description: This operation uses customer id to identify in a query string
+      parameters:
+        - in: query
+          name: customerId
+          description: pass customer id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Search result matched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: employee with id doesn't exist
+    post:
+      summary: adds a new customer
+      operationId: addCustomer
+      description: Add a new customer to the System
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        description: new customer data in JSON format
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: integer
+        '405':
+          description: Invalid Customer data
+  /customer/{customerId}:
+    put:
+      summary: update existing customer
+      operationId: updateCustomer
+      description: Updates an existing customer in system
+      parameters:
+        - in: path
+          name: customerId
+          description: id of customer to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        description: updated customer data input
+        required: true
+      responses:
+        '200':
+          description: Successfully updated
+        '404':
+          description: Customer not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete existing customer
+      operationId: deleteCustomer
+      description: Deletes existing customer from system
+      parameters:
+        - in: path
+          name: customerId
+          description: Customer Id that needs to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Customer successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer id not found
+        '500':
+          description: Internal server error
+security:
+  - BasicAuth: []
+servers:
+  - url: http://api.pchowdhury.com/crm/v1
+  - url: https://api.pchowdhury.com/crm/v1
+    description: Internal production
+  - url: https://staging.pchowdhury.com/crm/v1
+    description: Internal staging domain
+  - url: https://dev.pchowdhury.com/crm/v1
+    description: Internal development domain
+  - url: https://{customerId}.pchowdhury.com/crm/{version}
+    description: Customer production
+    variables:
+      customerId:
+        default: demo
+        description: customer id for sub domain
+      version:
+        default: v1
+        enum:
+          - v1
+          - v2
+          - v3-beta
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: integer
+        accountValue:
+          type: number
+        customerName:
+          type: string
+        active:
+          type: boolean
+        address:
+          type: object
+          properties:
+            name:
+              type: string
+            street:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+        contacts:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              phone:
+                type: string

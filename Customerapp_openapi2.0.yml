@@ -1,0 +1,162 @@
+swagger: '2.0'
+info:
+  title: Customer API
+  description: This is the customer API. It provides restful API for customer data
+  version: '1.0.0'
+  contact:
+    name: Partha Prasad Roy Chowdhury
+    url: https://www.github.com
+    email: partha.roy-chowdhury@capgemini.com
+  license:
+    name: Apache '2.0'
+    url: https://www.apache.org/licenses/LICENSE-2.0
+paths:
+  /customer: 
+    get:
+      summary: reads a customer data
+      operationId: getCustomer
+      description: "This operation uses customer id to identify in a query string"
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: customerId
+          description: pass customer id
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Search result matched
+          schema:
+            $ref: "#/definitions/Customer"
+        404:
+          description: "employee with id doesn't exist"
+    post:
+      summary: adds a new customer
+      operationId: addCustomer
+      description: "Add a new customer to the System"
+      produces:
+        - text/plain
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: new customer data in JSON format
+          required: true
+          schema:
+            $ref: "#/definitions/Customer"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: integer
+        405:
+          description: "Invalid Customer data"
+  /customer/{customerId}:
+    put:
+      summary: update existing customer
+      operationId: updateCustomer
+      description: "Updates an existing customer in system"
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: updated customer data input
+          required: true
+          schema:
+            $ref: "#/definitions/Customer"
+        - in: path
+          name: customerId
+          description: id of customer to update
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successfully updated
+        404:
+          description: Customer not found
+        500:
+          description: Internal server error
+    delete:
+      summary: Delete existing customer
+      operationId: deleteCustomer
+      description: "Deletes existing customer from system"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: customerId
+          description: Customer Id that needs to be deleted
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Customer successfully deleted
+          schema:
+            $ref: "#/definitions/Customer"
+        404:
+          description: Customer id not found
+        500:
+          description: Internal server error
+definitions:
+  Customer:
+    type: object
+    properties:
+      customerId:
+        type: integer
+      accountValue:
+        type: number
+      customerName:
+        type: string
+      active:
+        type: boolean
+      address:
+        type: object
+        properties:
+          name:
+            type: string
+          street:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zip:
+            type: string
+      contacts:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+host: api.pchowdhury.com
+basePath: /crm/v1
+schemes:
+  - http
+  - https
+securityDefinitions:
+  BasicAuth:
+    type: basic
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://www.example.com/oauth/authorize
+    tokenUrl: https://www.example.com/oauth/token
+    scopes:
+      read: Grant read access
+      write: Grant write access
+      admin: Grant read and write access to administrative in system
+ security:
+  - BasicAuth: []     
+       
