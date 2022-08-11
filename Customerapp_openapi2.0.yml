@@ -8,7 +8,7 @@ info:
     url: https://www.github.com
     email: partha.roy-chowdhury@capgemini.com
   license:
-    name: Apache '2.0'
+    name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0
 paths:
   /customer: 
@@ -18,6 +18,7 @@ paths:
       description: "This operation uses customer id to identify in a query string"
       produces:
         - application/json
+        - application/xml
       parameters:
         - in: query
           name: customerId
@@ -30,7 +31,7 @@ paths:
           schema:
             $ref: "#/definitions/Customer"
         404:
-          description: "employee with id doesn't exist"
+          description: "Employee with id doesn't exist"
     post:
       summary: adds a new customer
       operationId: addCustomer
@@ -137,26 +138,12 @@ definitions:
             phone:
               type: string
 host: api.pchowdhury.com
-basePath: /crm/v1
+basePath: /crm/v2
 schemes:
   - http
   - https
 securityDefinitions:
   BasicAuth:
     type: basic
-  ApiKeyAuth:
-    type: apiKey
-    in: header
-    name: X-API-Key
-  OAuth2:
-    type: oauth2
-    flow: accessCode
-    authorizationUrl: https://www.example.com/oauth/authorize
-    tokenUrl: https://www.example.com/oauth/token
-    scopes:
-      read: Grant read access
-      write: Grant write access
-      admin: Grant read and write access to administrative in system
- security:
-  - BasicAuth: []     
-       
+security:
+  - BasicAuth: []
