@@ -1,0 +1,70 @@
+### Domains, a place to put your reusable components
+
+### Examples...
+
+info:
+  description: Shared Entities
+  version: '1.0'
+  title: Entities Domain
+
+definitions:
+  Customer:
+    type: object
+    properties:
+      customerId:
+        type: integer
+      accountValue:
+        type: number
+      customerName:
+        type: string
+      active:
+        type: boolean
+      address:
+        $ref: "#/definitions/Address"
+      contacts:
+        type: array
+        items:
+          $ref: "#/definitions/Contacts"
+  Address:
+    type: object
+    properties:
+      name:
+        type: string
+      street:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+  Contacts:
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+# responses:
+#   GeneralError:
+#     description: General Error
+#     schema:
+#       $ref: '#/definitions/ErrorModel'
+
+# parameters:
+#   skipParam:
+#     name: skip
+#     in: query
+#     description: number of items to skip
+#     type: integer
+
+# pathitems:
+#   EntityOperations:
+#     get:
+#       description: Returns a pet based on ID
+#       summary: Find pet by ID
+#       responses:
+#         default:
+#           $ref: '#/responses/GeneralError'

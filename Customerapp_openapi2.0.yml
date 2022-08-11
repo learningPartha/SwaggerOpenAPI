@@ -29,7 +29,7 @@ paths:
         200:
           description: Search result matched
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: 'https://api.swaggerhub.com/domains/OrgSemantic117/Entities/1.0#/definitions/Customer'
         404:
           description: "Employee with id doesn't exist"
     post:
@@ -46,7 +46,7 @@ paths:
           description: new customer data in JSON format
           required: true
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: 'https://api.swaggerhub.com/domains/OrgSemantic117/Entities/1.0#/definitions/Customer'
       responses:
         200:
           description: "Successful operation"
@@ -67,7 +67,7 @@ paths:
           description: updated customer data input
           required: true
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: 'https://api.swaggerhub.com/domains/OrgSemantic117/Entities/1.0#/definitions/Customer'
         - in: path
           name: customerId
           description: id of customer to update
@@ -96,47 +96,11 @@ paths:
         200:
           description: Customer successfully deleted
           schema:
-            $ref: "#/definitions/Customer"
+            $ref: 'https://api.swaggerhub.com/domains/OrgSemantic117/Entities/1.0#/definitions/Customer'
         404:
           description: Customer id not found
         500:
           description: Internal server error
-definitions:
-  Customer:
-    type: object
-    properties:
-      customerId:
-        type: integer
-      accountValue:
-        type: number
-      customerName:
-        type: string
-      active:
-        type: boolean
-      address:
-        type: object
-        properties:
-          name:
-            type: string
-          street:
-            type: string
-          city:
-            type: string
-          state:
-            type: string
-          zip:
-            type: string
-      contacts:
-        type: array
-        items:
-          type: object
-          properties:
-            name:
-              type: string
-            email:
-              type: string
-            phone:
-              type: string
 host: api.pchowdhury.com
 basePath: /crm/v2
 schemes:
